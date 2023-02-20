@@ -40,7 +40,7 @@ public class Swerve extends SubsystemBase {
     
     
     swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), null, getPose());
-   // ADD SWERVE MOD POSITION
+   // ADD SWERVE MOD POSITION REMOVE NULL
 
     mSwerveMods =
         new SwerveModule[] {
@@ -83,8 +83,8 @@ public class Swerve extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), /*here */, pose);
-    // ADD SWERVE MOD POSITION
+    swerveOdometry.resetPosition(getYaw(), null, pose);
+    // ADD SWERVE MOD POSITION REMOVE NULL
   }
 
   public SwerveModuleState[] getStates() {
@@ -107,7 +107,8 @@ public class Swerve extends SubsystemBase {
 
   @Override
   public void periodic() {
-    swerveOdometry.update(getYaw(), getStates());
+    //swerveOdometry.update(getYaw(), getStates());
+    // Uncomment and fix line above for odometry. Simple needs module positions added. 
     field.setRobotPose(getPose());
 
     for (SwerveModule mod : mSwerveMods) {
