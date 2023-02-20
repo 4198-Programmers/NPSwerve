@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -148,4 +149,10 @@ public class SwerveModule {
   public SwerveModuleState getState() {
     return new SwerveModuleState(driveEncoder.getVelocity(), getAngle());
   }
+  public SwerveModulePosition getPosition(){
+    return new SwerveModulePosition(
+        Conversions.falconToMeters(mDriveMotor.getSelectedSensorPosition(), Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio), 
+        getAngle()
+    );
+}
 }

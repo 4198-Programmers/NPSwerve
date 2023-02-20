@@ -29,17 +29,11 @@ public class Swerve extends SubsystemBase {
     gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
    
     zeroGyro();
-/* 
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), new SwerveModulePosition[] {
-      m_frontLeftModule.getPosition(),
-      m_frontRightModule.getPosition(),
-      m_backLeftModule.getPosition(),
-      m_backRightModule.getPosition()
-    }); */
+
    
     
     
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), null, getPose());
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions(), getPose());
    // ADD SWERVE MOD POSITION REMOVE NULL
 
     mSwerveMods =
@@ -78,12 +72,14 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  
+
   public Pose2d getPose() {
     return swerveOdometry.getPoseMeters();
   }
 
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), null, pose);
+    swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     // ADD SWERVE MOD POSITION REMOVE NULL
   }
 
@@ -93,6 +89,14 @@ public class Swerve extends SubsystemBase {
       states[mod.moduleNumber] = mod.getState();
     }
     return states;
+  }
+
+  public SwerveModulePosition[] getModulePositions(){
+    SwerveModulePosition[] positions = new SwerveModulePosition[4];
+    for(SwerveModule mod : mSwerveMods){
+        positions[mod.moduleNumber] = mod.getPosition();
+    }
+    return positions;
   }
 
   public void zeroGyro() {
@@ -107,7 +111,7 @@ public class Swerve extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //swerveOdometry.update(getYaw(), getStates());
+    swerveOdometry.update(getYaw(), getModulePositions());
     // Uncomment and fix line above for odometry. Simple needs module positions added. 
     field.setRobotPose(getPose());
 
