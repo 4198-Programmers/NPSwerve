@@ -60,8 +60,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-   // zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    new JoystickButton(driver, 1).onTrue(zeroGyro);
+    //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    new JoystickButton(driver, 1).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
   }
 
   /**

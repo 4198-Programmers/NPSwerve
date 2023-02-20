@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,9 +29,18 @@ public class Swerve extends SubsystemBase {
     gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
    
     zeroGyro();
-
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw());
+/* 
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), new SwerveModulePosition[] {
+      m_frontLeftModule.getPosition(),
+      m_frontRightModule.getPosition(),
+      m_backLeftModule.getPosition(),
+      m_backRightModule.getPosition()
+    }); */
+   
     
+    
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), null, getPose());
+   // ADD SWERVE MOD POSITION
 
     mSwerveMods =
         new SwerveModule[] {
@@ -73,7 +83,8 @@ public class Swerve extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(pose, getYaw());
+    swerveOdometry.resetPosition(getYaw(), /*here */, pose);
+    // ADD SWERVE MOD POSITION
   }
 
   public SwerveModuleState[] getStates() {
