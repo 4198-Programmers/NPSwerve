@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
@@ -16,8 +16,6 @@ import frc.lib.util.CANCoderUtil;
 import frc.lib.util.CANCoderUtil.CCUsage;
 import frc.lib.util.CANSparkMaxUtil;
 import frc.lib.util.CANSparkMaxUtil.Usage;
-import frc.robot.Constants;
-import frc.robot.Robot;
 
 public class SwerveModule {
   public int moduleNumber;
@@ -151,8 +149,8 @@ public class SwerveModule {
   }
   public SwerveModulePosition getPosition(){
     return new SwerveModulePosition(
-        (driveEncoder.getPosition() / Constants.Swerve.driveGearRatio * Constants.Swerve.wheelCircumference), 
+        (driveEncoder.getPosition() / Constants.Swerve.driveGearRatio * 4), 
         getAngle()
     );
-}
+} // the 4 is supposed to be wheel circumfranse 
 }
